@@ -1,4 +1,5 @@
 import React from "react";
+import "frontend/styles/App.css"; 
 
 function Landing() {
   return (
