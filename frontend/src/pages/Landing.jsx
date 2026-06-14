@@ -1,12 +1,12 @@
 import React from "react";
-import "frontend/styles/App.css"; 
+import "../App.css";
 
 function Landing() {
   return (
     <div>
       {/* Navbar */}
       <nav className="navbar">
-        <div className="logo">☕ Estação de Café</div>
+        <div className="logo">Estação de Café</div>
         <ul className="nav-links">
           <li><a href="#home">Home</a></li>
           <li><a href="#sobre">Sobre</a></li>
