@@ -6,8 +6,7 @@ backend/node_modules/
 frontend/node_modules/
 frontend/dist/
 
-# Testes locais (smoke tests que nao fazem parte do projeto)
-backend/smoke-*.mjs
+# Testes locais
 *.local.mjs
 
 # OS
