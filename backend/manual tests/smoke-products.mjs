@@ -1,4 +1,5 @@
 import { MongoMemoryServer } from 'mongodb-memory-server';
+import User from '../src/models/User.js';
 
 // Teste isolado: sobe um MongoDB em memoria e exercita /api/products.
 // Rodar com: node "manual tests/smoke-products.mjs"
@@ -37,18 +38,15 @@ const check = (label, cond, extra) => {
   if (!cond) ok = false;
 };
 
-// Cria um admin e um cliente e guarda os tokens
-const register = async (role) => {
-  const r = await req('/api/auth/register', 'POST', {
-    name: role,
-    email: `${role}@cafe.com`,
-    password: '123456',
-    role,
-  });
+// Cria um admin e um cliente e guarda os tokens.
+// O register sempre cria 'customer'; promovemos o admin direto no banco (dev).
+const register = async (email) => {
+  const r = await req('/api/auth/register', 'POST', { name: email, email, password: '123456' });
   return (await r.json()).token;
 };
-const adminToken = await register('admin');
-const customerToken = await register('customer');
+const adminToken = await register('admin@cafe.com');
+await User.updateOne({ email: 'admin@cafe.com' }, { role: 'admin' });
+const customerToken = await register('customer@cafe.com');
 
 // Sem token nao acessa nada
 let r = await req('/api/products', 'GET');

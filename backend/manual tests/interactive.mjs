@@ -1,6 +1,7 @@
 import { MongoMemoryServer } from 'mongodb-memory-server';
 import * as readline from 'node:readline/promises';
 import { stdin as input, stdout as output } from 'node:process';
+import User from '../src/models/User.js';
 
 // Tester interativo: voce dirige a jornada pelo terminal.
 // Sobe um MongoDB em memoria (nao precisa de .env nem Atlas).
@@ -72,9 +73,13 @@ while (true) {
     const email = await ask('Email: ');
     const password = await ask('Senha: ');
     const role = await ask('Role (admin/customer) [enter=customer]: ');
-    const data = await req('/api/auth/register', 'POST', {
-      name, email, password, role: role.trim() || 'customer',
-    });
+    const data = await req('/api/auth/register', 'POST', { name, email, password });
+    // A API sempre cria 'customer'. Aqui (dev) promovemos direto no banco se pedir admin.
+    if (data._id && role.trim().toLowerCase() === 'admin') {
+      await User.updateOne({ email }, { role: 'admin' });
+      data.role = 'admin';
+      console.log('  (dev) usuario promovido a admin direto no banco');
+    }
     if (data.token) { token = data.token; userInfo = data; }
   } else if (op === '2') {
     const email = await ask('Email: ');
