@@ -13,6 +13,9 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+// Health check (raiz) - util para o servico de deploy verificar se esta no ar
+app.get('/', (req, res) => res.json({ status: 'ok', api: 'coffee-shop' }));
+
 // Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/products', productRoutes);
