@@ -9,14 +9,16 @@ const generateToken = (id) => {
 // POST /api/auth/register
 export const register = async (req, res) => {
   try {
-    const { name, email, password, role } = req.body;
+    const { name, email, password } = req.body;
 
     const userExists = await User.findOne({ email });
     if (userExists) {
       return res.status(400).json({ message: 'Email já cadastrado' });
     }
 
-    const user = await User.create({ name, email, password, role });
+    // role nao vem do cliente: todo cadastro nasce 'customer' (padrao do schema).
+    // Admins sao promovidos manualmente no banco.
+    const user = await User.create({ name, email, password });
 
     res.status(201).json({
       _id: user._id,
