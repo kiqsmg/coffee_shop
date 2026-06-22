@@ -25,9 +25,10 @@ Cadastra um usuário e já devolve o token.
 
 Body:
 ```json
-{ "name": "Maria", "email": "maria@cafe.com", "password": "123456", "role": "customer" }
+{ "name": "Maria", "email": "maria@cafe.com", "password": "123456" }
 ```
-- `role` é opcional: `"customer"` (padrão) ou `"admin"`.
+- Todo cadastro nasce como `customer`. O `role` **não** é aceito pelo cliente
+  (evita auto-cadastro de admin); admins são promovidos manualmente no banco.
 
 Resposta `201`:
 ```json
