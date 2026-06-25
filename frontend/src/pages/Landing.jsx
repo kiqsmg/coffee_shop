@@ -6,7 +6,7 @@ function Landing() {
     <div>
       {/* Navbar */}
       <nav className="navbar">
-        <div className="logo">Estação de Café</div>
+        <div className="logo">Estação Café</div>
         <ul className="nav-links">
           <li><a href="#home">Home</a></li>
           <li><a href="#sobre">Sobre</a></li>
