@@ -1,9 +1,10 @@
 import express from 'express';
 import { protect } from '../middleware/auth.js';
+import { getUserById, updateUser } from '../controllers/userController.js';
 
 const router = express.Router();
 
-// GET  /api/users/:id
-// PUT  /api/users/:id
+router.get('/:id', protect, getUserById);
+router.put('/:id', protect, updateUser);
 
 export default router;
