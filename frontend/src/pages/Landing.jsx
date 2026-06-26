@@ -1,47 +1,39 @@
 import React from "react";
 import "../App.css";
+import Navbar from "../components/Navbar"; 
+import Footer from "../components/Footer"; 
 
 function Landing() {
   return (
-    <div>
-      {/* Navbar */}
-      <nav className="navbar">
-        <div className="logo">Estação Café</div>
-        <ul className="nav-links">
-          <li><a href="#home">Home</a></li>
-          <li><a href="#sobre">Sobre</a></li>
-          <li><a href="#menu">Menu</a></li>
-          <li><a href="#endereco">Endereço</a></li>
-        </ul>
-      </nav>
+    <div className="landing">
+      <Navbar />
 
-      {/* Hero Section */}
       <section id="home" className="hero">
-        <h1>Estação de Café</h1>
+        <h1>Estação Café</h1>
         <p>
           Na correria do dia a dia, todo mundo precisa de uma pausa. 
-          A Estação de Café é o seu ponto de encontro para momentos de sabor, calma e boas conversas. 
+          A Estação Café é o seu ponto de encontro para momentos de sabor, calma e boas conversas. 
           Aqui, cada xícara é preparada com carinho, para que você se sinta em casa.
         </p>
         <button className="cta">Compre já o seu</button>
       </section>
 
-      {/* Sobre Nós */}
       <section id="sobre" className="sobre">
         <h2>Sobre Nós</h2>
         <p>
           Nossa história nasceu do desejo de criar um espaço acolhedor, 
           onde o café é mais que uma bebida: é uma experiência. 
-          A Estação de Café é o lugar onde tradição e modernidade se encontram, 
+          A Estação Café é o lugar onde tradição e modernidade se encontram, 
           trazendo aromas que despertam memórias e inspiram novas conexões.
         </p>
         <p>
-          Descubra o sabor da pausa perfeita. A Estação de Café está pronta para receber você 
+          Descubra o sabor da pausa perfeita. A Estação Café está pronta para receber você 
           com um sorriso e uma xícara quentinha.
         </p>
         <button className="cta">Saiba Mais</button>
       </section>
 
+      {/* Menu */}
       <section id="menu" className="menu">
         <h2>Nosso Menu</h2>
         <ul>
@@ -60,10 +52,7 @@ function Landing() {
         <p>Rua das Pausas, 123 - Florianópolis, SC</p>
       </section>
 
-      {/* Footer */}
-      <footer>
-        <p>© 2026 Estação de Café - Todos os direitos reservados</p>
-      </footer>
+      <Footer />
     </div>
   );
 }
