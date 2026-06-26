@@ -1,4 +1,6 @@
-import { Instagram, Youtube } from "lucide-react"
+import React from "react";
+import { Link } from "react-router-dom";
+import { FaInstagram, FaYoutube } from "react-icons/fa";
 
 export default function Footer() {
   return (
@@ -7,16 +9,24 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mb-8">
           {/* Brand */}
           <div>
-            <Link href="/" className="font-heading text-xl lg:text-2xl font-bold mb-4 tracking-wider block">
+            <Link
+              to="/"
+              className="font-heading text-xl lg:text-2xl font-bold mb-4 tracking-wider block"
+            >
               ESTAÇÃO CAFÉ
             </Link>
-            <p className="font-body text-gray-300">Um espaço para pausar e apreciar.</p>
+            <p className="font-body text-gray-300">
+              Um espaço para pausar e apreciar.
+            </p>
           </div>
 
           {/* Links */}
           <div>
             <nav className="space-y-3">
-              <Link href="/contato" className="block font-body hover:text-gray-300 transition-colors">
+              <Link
+                to="/contato"
+                className="block font-body hover:text-gray-300 transition-colors"
+              >
                 Contato
               </Link>
             </nav>
@@ -24,7 +34,9 @@ export default function Footer() {
 
           {/* Newsletter */}
           <div>
-            <h4 className="font-heading text-lg font-bold mb-4 tracking-wider">RECEBA NOSSAS NOVIDADES</h4>
+            <h4 className="font-heading text-lg font-bold mb-4 tracking-wider">
+              RECEBA NOSSAS NOVIDADES
+            </h4>
             <div className="flex flex-col sm:flex-row gap-3">
               <input
                 type="email"
@@ -35,10 +47,10 @@ export default function Footer() {
             </div>
             <div className="flex space-x-4 mt-6">
               <a href="#" className="hover:text-gray-300 transition-colors">
-                <Instagram className="w-5 h-5" />
+                <FaInstagram className="w-5 h-5" />
               </a>
               <a href="#" className="hover:text-gray-300 transition-colors">
-                <Youtube className="w-5 h-5" />
+                <FaYoutube className="w-5 h-5" />
               </a>
             </div>
           </div>
@@ -46,10 +58,11 @@ export default function Footer() {
 
         <div className="border-t border-gray-700 pt-8">
           <p className="font-mono text-sm text-gray-400 text-center">
-            © 2026 ESTAÇÃO CAFÉ — TODOS OS DIREITOS RESERVADOS. Rua das Pausas, 123 — Florianópolis, SC
+            © 2026 ESTAÇÃO CAFÉ — TODOS OS DIREITOS RESERVADOS. Rua das Pausas,
+            123 — Florianópolis, SC
           </p>
         </div>
       </div>
     </footer>
-  )
+  );
 }
