@@ -8,7 +8,7 @@ function Login() {
     <div className="login-container">
       {/* Logo e link para voltar */}
       <header className="login-header">
-        <h1>☕ Estação de Café</h1>
+        <h1>Estação Café</h1>
         <Link to="/">Voltar para Home</Link>
       </header>
 
