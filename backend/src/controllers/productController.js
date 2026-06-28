@@ -1,6 +1,5 @@
 import Product from '../models/Product.js';
 
-// GET /api/products - lista todos (qualquer usuario autenticado)
 export const getProducts = async (req, res) => {
   try {
     const products = await Product.find().sort({ createdAt: -1 });
@@ -10,7 +9,6 @@ export const getProducts = async (req, res) => {
   }
 };
 
-// GET /api/products/:id - busca um produto
 export const getProductById = async (req, res) => {
   try {
     const product = await Product.findById(req.params.id);
@@ -23,7 +21,6 @@ export const getProductById = async (req, res) => {
   }
 };
 
-// POST /api/products - cria produto (admin)
 export const createProduct = async (req, res) => {
   try {
     const { code, name } = req.body;
@@ -38,11 +35,21 @@ export const createProduct = async (req, res) => {
   }
 };
 
-// PUT /api/products/:id - edita produto (admin)
 export const updateProduct = async (req, res) => {
   try {
+    const { code, name } = req.body;
+    if (code || name) {
+      const duplicate = await Product.findOne({
+        _id: { $ne: req.params.id },
+        $or: [...(code ? [{ code }] : []), ...(name ? [{ name }] : [])],
+      });
+      if (duplicate) {
+        return res.status(400).json({ message: 'Código ou nome já cadastrado' });
+      }
+    }
+
     const product = await Product.findByIdAndUpdate(req.params.id, req.body, {
-      new: true,
+      returnDocument: 'after',
       runValidators: true,
     });
     if (!product) {
@@ -54,7 +61,6 @@ export const updateProduct = async (req, res) => {
   }
 };
 
-// DELETE /api/products/:id - remove produto (admin)
 export const deleteProduct = async (req, res) => {
   try {
     const product = await Product.findByIdAndDelete(req.params.id);
