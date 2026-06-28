@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { FaUser, FaBars, FaTimes } from "react-icons/fa";
+import { useAuth } from "../context/AuthContext";
 
 const links = [
   { href: "/menu", label: "MENU", route: true },
@@ -10,6 +11,14 @@ const links = [
 
 function Navbar() {
   const [open, setOpen] = useState(false);
+  const { user, logout } = useAuth();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    logout();
+    setOpen(false);
+    navigate("/");
+  };
 
   const renderLink = (l, onClick) =>
     l.route ? (
@@ -46,14 +55,28 @@ function Navbar() {
           {links.map((l) => renderLink(l))}
         </nav>
 
-        <div className="flex items-center gap-5">
-          <Link
-            to="/login"
-            className="text-cream/80 transition-colors hover:text-honey"
-            aria-label="Entrar"
-          >
-            <FaUser />
-          </Link>
+        <div className="flex items-center gap-4">
+          {user ? (
+            <>
+              <span className="hidden font-body text-sm text-cream/80 sm:inline">
+                Olá, {user.name?.split(" ")[0] || "conta"}
+              </span>
+              <button
+                onClick={handleLogout}
+                className="rounded-full border border-cream/20 px-4 py-1.5 font-body text-sm text-cream/80 transition-colors hover:border-honey hover:text-honey"
+              >
+                Sair
+              </button>
+            </>
+          ) : (
+            <Link
+              to="/login"
+              className="text-cream/80 transition-colors hover:text-honey"
+              aria-label="Entrar"
+            >
+              <FaUser />
+            </Link>
+          )}
           <button
             className="text-cream/80 transition-colors hover:text-honey md:hidden"
             onClick={() => setOpen(!open)}
