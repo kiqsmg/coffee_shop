@@ -1,12 +1,13 @@
 import React from "react";
 import "../App.css";
-import Navbar from "../components/Navbar"; 
-import Footer from "../components/Footer"; 
+import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
+import { FaArrowRight } from "react-icons/fa";
 
 export default function AboutPage() {
   return (
     <div className="min-h-screen bg-canvas">
-      <Header />
+      <Navbar />
 
       <main className="pt-24 leading-7">
         {/* Hero Section com vídeo de fundo */}
@@ -17,13 +18,9 @@ export default function AboutPage() {
               muted
               loop
               playsInline
-              webkit-playsinline="true"
               className="w-full h-full object-cover"
             >
-              <source
-                src="/about_video.mp4"
-                type="video/mp4"
-              />
+              <source src="/about_video.mp4" type="video/mp4" />
             </video>
           </div>
           <div className="absolute inset-0 z-20 bg-gradient-to-b from-black/80 via-black/60 to-black/70"></div>
@@ -53,13 +50,13 @@ export default function AboutPage() {
               </p>
               <p>Tradição e modernidade se encontram em cada preparo.</p>
             </div>
-            <Link
+            <a
               href="/menu"
               className="inline-flex items-center font-body text-white hover:text-gray-300 transition-all duration-300 group text-xs sm:text-sm md:text-base"
             >
               CONHEÇA NOSSO MENU
-              <ArrowRight className="ml-2 w-3 h-3 sm:w-4 sm:h-4 group-hover:translate-x-1 transition-transform duration-300" />
-            </Link>
+              <FaArrowRight className="ml-2 w-3 h-3 sm:w-4 sm:h-4 group-hover:translate-x-1 transition-transform duration-300" />
+            </a>
           </div>
         </section>
 
@@ -68,11 +65,9 @@ export default function AboutPage() {
           <div className="container mx-auto px-4 md:px-6">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-16 items-center">
               <div>
-                <Image
+                <img
                   src="/about_texto.png"
                   alt="image coffe"
-                  width={500}
-                  height={600}
                   className="w-full h-48 sm:h-64 md:h-96 lg:h-[500px] object-cover grayscale"
                 />
               </div>
@@ -103,11 +98,10 @@ export default function AboutPage() {
         {/* Imagem de fundo */}
         <section className="w-full">
           <div className="relative h-48 sm:h-64 md:h-96 lg:h-[500px] overflow-hidden">
-            <Image
+            <img
               src="/trem_about.png"
               alt="cafe com graos"
-              fill
-              className="object-cover grayscale"
+              className="w-full h-full object-cover grayscale"
             />
           </div>
         </section>
