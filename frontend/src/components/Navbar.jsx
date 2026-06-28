@@ -19,7 +19,7 @@ function Navbar() {
         <Link to="/menu" className="hover:text-gray-300 transition-colors">
           MENU
         </Link>
-        <Link to="/sobre" className="hover:text-gray-300 transition-colors">
+        <Link to="/about" className="hover:text-gray-300 transition-colors">
           SOBRE NÓS
         </Link>
       </nav>
@@ -33,7 +33,7 @@ function Navbar() {
           <FaUser />
         </Link>
         <Link
-          to="/sacola"
+          to="/register"
           className="hover:text-gray-300 transition-colors relative"
         >
           <FaShoppingBag />
