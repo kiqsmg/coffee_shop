@@ -1,80 +1,74 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { FaUser, FaSearch, FaShoppingBag, FaBars } from "react-icons/fa";
+import { FaUser, FaBars, FaTimes } from "react-icons/fa";
+
+const links = [
+  { href: "/menu", label: "MENU", route: true },
+  { href: "#sobre", label: "SOBRE", route: false },
+  { href: "#endereco", label: "CONTATO", route: false },
+];
 
 function Navbar() {
-  const [cartCount, setCartCount] = useState(0);
-  const [isScrolled, setIsScrolled] = useState(false);
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [open, setOpen] = useState(false);
 
-  useEffect(() => {
-    const onScroll = () => {
-      setIsScrolled(window.scrollY > 60);
-    };
-    window.addEventListener("scroll", onScroll);
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
-
-  const headerBgClass = isScrolled
-    ? "bg-black/80 backdrop-blur-xl text-white"
-    : "bg-black/20 backdrop-blur-xl text-white";
+  const renderLink = (l, onClick) =>
+    l.route ? (
+      <Link
+        key={l.href}
+        to={l.href}
+        onClick={onClick}
+        className="font-body text-sm tracking-wide text-cream/80 transition-colors hover:text-honey"
+      >
+        {l.label}
+      </Link>
+    ) : (
+      <a
+        key={l.href}
+        href={l.href}
+        onClick={onClick}
+        className="font-body text-sm tracking-wide text-cream/80 transition-colors hover:text-honey"
+      >
+        {l.label}
+      </a>
+    );
 
   return (
-    <header
-      className={`fixed top-0 w-full z-40 transition-all duration-300 ${headerBgClass}`}
-    >
-      <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-        {/* Logo */}
+    <header className="sticky top-0 z-50 bg-dark/90 backdrop-blur-md">
+      <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
         <Link
-          to="/landing"
-          className="font-heading text-lg sm:text-xl lg:text-2xl font-bold tracking-wider hover:scale-110 transition-all duration-300"
+          to="/"
+          className="font-heading text-lg font-bold tracking-wider text-cream"
         >
-          ESTAÇÃO CAFÉ
+          ☕ ESTAÇÃO CAFÉ
         </Link>
 
-        {/* Links desktop */}
-        <nav className="hidden md:flex items-center space-x-8 font-body">
-          <Link to="/menu" className="hover:scale-110 transition-transform">
-            MENU
-          </Link>
-          <Link to="/about" className="hover:scale-110 transition-transform">
-            SOBRE NÓS
-          </Link>
+        <nav className="hidden items-center gap-10 md:flex">
+          {links.map((l) => renderLink(l))}
         </nav>
 
-        {/* Ícones */}
-        <div className="flex items-center space-x-4">
-          <button className="p-2 hover:bg-white/10 rounded-full transition-all">
-            <FaSearch />
-          </button>
-          <Link to="/login" className="p-2 hover:bg-white/10 rounded-full">
+        <div className="flex items-center gap-5">
+          <Link
+            to="/login"
+            className="text-cream/80 transition-colors hover:text-honey"
+            aria-label="Entrar"
+          >
             <FaUser />
           </Link>
-          <Link
-            to="/register"
-            className="p-2 hover:bg-white/10 rounded-full relative"
-          >
-            <FaShoppingBag />
-            {cartCount > 0 && (
-              <span className="absolute -top-1 -right-1 bg-white text-black text-xs rounded-full w-5 h-5 flex items-center justify-center font-mono animate-pulse">
-                {cartCount}
-              </span>
-            )}
-          </Link>
           <button
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="md:hidden p-2 hover:bg-white/10 rounded-full"
+            className="text-cream/80 transition-colors hover:text-honey md:hidden"
+            onClick={() => setOpen(!open)}
+            aria-label="Abrir menu"
           >
-            <FaBars />
+            {open ? <FaTimes /> : <FaBars />}
           </button>
         </div>
       </div>
 
-      {isMobileMenuOpen && (
-        <div className="md:hidden bg-black text-white p-4 space-y-4">
-          <Link to="/menu">MENU</Link>
-          <Link to="/about">SOBRE NÓS</Link>
-        </div>
+      {/* Menu mobile */}
+      {open && (
+        <nav className="flex flex-col gap-4 border-t border-cream/10 px-6 py-4 md:hidden">
+          {links.map((l) => renderLink(l, () => setOpen(false)))}
+        </nav>
       )}
     </header>
   );

@@ -1,62 +1,6 @@
-body {
-  margin: 0;
-  font-family: 'Roboto Condensed', sans-serif;
-  background-color: #fff;
-  color: #000;
-}
+/* Estilos do Login/Cadastro (serao migrados para Tailwind no bloco 2).
+   O tema global (cores, fontes, .glass, .btn-primary) vive em index.css. */
 
-.navbar {
-  background-color: #d3d3d3;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1rem 3rem;
-}
-
-.navbar .logo {
-  font-weight: 700;
-  letter-spacing: 1px;
-}
-
-.navbar .nav-links li {
-  display: inline;
-  margin: 0 1rem;
-}
-
-.navbar .nav-links a {
-  text-decoration: none;
-  color: #000;
-  font-weight: 500;
-}
-
-/* Hero Section */
-.hero {
-  background: url('/assets/cafe-bg.jpg') center/cover no-repeat;
-  color: #fff;
-  text-align: center;
-  padding: 10rem 2rem;
-}
-
-.hero h1 {
-  font-size: 3rem;
-  font-weight: 700;
-}
-
-.hero p {
-  font-size: 1.2rem;
-  margin-bottom: 2rem;
-}
-
-button.cta {
-  background-color: #000;
-  color: #fff;
-  border: none;
-  padding: 1rem 2rem;
-  font-weight: 600;
-  cursor: pointer;
-}
-
-/* Login & Register */
 .login-container {
   display: flex;
   flex-direction: column;
@@ -82,7 +26,7 @@ button.cta {
   border: 1px solid #ddd;
   padding: 2rem;
   width: 350px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .login-form input, .register-form input {
@@ -99,33 +43,4 @@ button.cta {
   border: none;
   padding: 1rem;
   font-weight: 600;
-}
-
-/* Menu Section */
-.menu {
-  padding: 4rem 2rem;
-  text-align: center;
-}
-
-.menu h2 {
-  font-size: 2rem;
-  margin-bottom: 2rem;
-}
-
-.menu ul {
-  list-style: none;
-  padding: 0;
-}
-
-.menu li {
-  font-size: 1.2rem;
-  margin: 0.5rem 0;
-}
-
-footer {
-  background-color: #f5f5f5;
-  text-align: center;
-  padding: 2rem;
-  font-size: 0.9rem;
-  color: #333;
 }
