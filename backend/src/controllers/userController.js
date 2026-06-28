@@ -1,6 +1,5 @@
 import User from '../models/User.js';
 
-// GET /api/users/:id - perfil do usuario (sem a senha)
 export const getUserById = async (req, res) => {
   try {
     const user = await User.findById(req.params.id).select('-password');
@@ -13,10 +12,8 @@ export const getUserById = async (req, res) => {
   }
 };
 
-// PUT /api/users/:id - atualiza o proprio cadastro
 export const updateUser = async (req, res) => {
   try {
-    // so o proprio usuario pode editar o proprio cadastro
     if (req.user._id.toString() !== req.params.id) {
       return res.status(403).json({ message: 'Você só pode editar o próprio cadastro' });
     }
@@ -26,8 +23,15 @@ export const updateUser = async (req, res) => {
       return res.status(404).json({ message: 'Usuário não encontrado' });
     }
 
-    // atualiza apenas os campos enviados; usa save() para o pre('save') re-hashear a senha
     const { name, email, password } = req.body;
+
+    if (email && email !== user.email) {
+      const emailTaken = await User.findOne({ email, _id: { $ne: req.params.id } });
+      if (emailTaken) {
+        return res.status(400).json({ message: 'Email já cadastrado' });
+      }
+    }
+
     if (name) user.name = name;
     if (email) user.email = email;
     if (password) user.password = password;
