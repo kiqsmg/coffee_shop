@@ -53,14 +53,19 @@ function Navbar() {
 
         <nav className="hidden items-center gap-10 md:flex">
           {links.map((l) => renderLink(l))}
+          {user?.role === "admin" &&
+            renderLink({ href: "/admin", label: "PAINEL", route: true })}
         </nav>
 
         <div className="flex items-center gap-4">
           {user ? (
             <>
-              <span className="hidden font-body text-sm text-cream/80 sm:inline">
+              <Link
+                to="/profile"
+                className="hidden font-body text-sm text-cream/80 transition-colors hover:text-honey sm:inline"
+              >
                 Olá, {user.name?.split(" ")[0] || "conta"}
-              </span>
+              </Link>
               <button
                 onClick={handleLogout}
                 className="rounded-full border border-cream/20 px-4 py-1.5 font-body text-sm text-cream/80 transition-colors hover:border-honey hover:text-honey"
@@ -91,6 +96,10 @@ function Navbar() {
       {open && (
         <nav className="flex flex-col gap-4 border-t border-cream/10 px-6 py-4 md:hidden">
           {links.map((l) => renderLink(l, () => setOpen(false)))}
+          {user?.role === "admin" &&
+            renderLink({ href: "/admin", label: "PAINEL", route: true }, () =>
+              setOpen(false)
+            )}
         </nav>
       )}
     </header>
