@@ -98,6 +98,34 @@ Erros: `403` ao tentar editar o cadastro de outro usuário · `404` id inexisten
 
 ---
 
+## Chamados — `/api/requests` (requer token)
+
+O "peça agora": o cliente sinaliza que quer um produto e o admin é avisado.
+
+| Método | Rota | Acesso | Descrição |
+|---|---|---|---|
+| POST | `/api/requests` | autenticado | Cliente cria um chamado para um produto |
+| GET | `/api/requests` | admin | Lista os chamados (pendentes primeiro) |
+| PUT | `/api/requests/:id` | admin | Marca o chamado como atendido |
+
+**POST body:** `{ "productId": "<id>" }`. O servidor anexa o usuário do token.
+
+**Formato do chamado:**
+```json
+{
+  "_id": "...",
+  "userName": "João",
+  "productName": "Cappuccino",
+  "status": "pendente",
+  "createdAt": "..."
+}
+```
+`status`: `"pendente"` ou `"atendido"`. Os nomes são snapshots (não quebram se
+o usuário/produto mudar depois). Erros: `404` produto inexistente · `403` se um
+cliente tentar listar/atender.
+
+---
+
 ## Exemplo de consumo (fetch)
 
 ```js
