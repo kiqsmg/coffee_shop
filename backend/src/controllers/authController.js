@@ -1,12 +1,10 @@
 import jwt from 'jsonwebtoken';
 import User from '../models/User.js';
 
-// Gera um token JWT válido por 7 dias
 const generateToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: '7d' });
 };
 
-// POST /api/auth/register
 export const register = async (req, res) => {
   try {
     const { name, email, password } = req.body;
@@ -16,8 +14,6 @@ export const register = async (req, res) => {
       return res.status(400).json({ message: 'Email já cadastrado' });
     }
 
-    // role nao vem do cliente: todo cadastro nasce 'customer' (padrao do schema).
-    // Admins sao promovidos manualmente no banco.
     const user = await User.create({ name, email, password });
 
     res.status(201).json({
@@ -32,7 +28,6 @@ export const register = async (req, res) => {
   }
 };
 
-// POST /api/auth/login
 export const login = async (req, res) => {
   try {
     const { email, password } = req.body;
