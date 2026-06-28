@@ -53,6 +53,8 @@ function Navbar() {
 
         <nav className="hidden items-center gap-10 md:flex">
           {links.map((l) => renderLink(l))}
+          {user?.role === "admin" &&
+            renderLink({ href: "/admin", label: "PAINEL", route: true })}
         </nav>
 
         <div className="flex items-center gap-4">
@@ -91,6 +93,10 @@ function Navbar() {
       {open && (
         <nav className="flex flex-col gap-4 border-t border-cream/10 px-6 py-4 md:hidden">
           {links.map((l) => renderLink(l, () => setOpen(false)))}
+          {user?.role === "admin" &&
+            renderLink({ href: "/admin", label: "PAINEL", route: true }, () =>
+              setOpen(false)
+            )}
         </nav>
       )}
     </header>
