@@ -9,6 +9,7 @@ import Menu from './pages/Menu';
 import ProductDetail from './pages/ProductDetail';
 import AdminPanel from './pages/AdminPanel';
 import Profile from './pages/Profile';
+import AboutPage from './pages/About'; 
 
 function App() {
   return (
@@ -19,18 +20,40 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
 
-          <Route path="/menu" element={
-            <ProtectedRoute><Menu /></ProtectedRoute>
-          } />
-          <Route path="/menu/:id" element={
-            <ProtectedRoute><ProductDetail /></ProtectedRoute>
-          } />
-          <Route path="/profile" element={
-            <ProtectedRoute><Profile /></ProtectedRoute>
-          } />
-          <Route path="/admin" element={
-            <ProtectedRoute adminOnly><AdminPanel /></ProtectedRoute>
-          } />
+          <Route path="/about" element={<AboutPage />} />
+
+          <Route
+            path="/menu"
+            element={
+              <ProtectedRoute>
+                <Menu />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/menu/:id"
+            element={
+              <ProtectedRoute>
+                <ProductDetail />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/profile"
+            element={
+              <ProtectedRoute>
+                <Profile />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin"
+            element={
+              <ProtectedRoute adminOnly>
+                <AdminPanel />
+              </ProtectedRoute>
+            }
+          />
         </Routes>
       </BrowserRouter>
     </AuthProvider>
