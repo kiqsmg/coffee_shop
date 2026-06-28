@@ -1,10 +1,30 @@
-import React from "react";
+import React, { useState } from "react";
+import api from "../services/api";
 
 // Formata o preco para o padrao brasileiro (R$ 12,00)
 const formatPrice = (value) =>
   `R$ ${Number(value).toFixed(2).replace(".", ",")}`;
 
 function ProductCard({ product }) {
+  const [status, setStatus] = useState("idle"); // idle | sending | sent | error
+
+  const pedir = async () => {
+    setStatus("sending");
+    try {
+      await api.post("/requests", { productId: product._id });
+      setStatus("sent");
+    } catch {
+      setStatus("error");
+    }
+  };
+
+  const labels = {
+    idle: "Peça agora",
+    sending: "Enviando...",
+    sent: "Atendente a caminho ✓",
+    error: "Erro — tentar de novo",
+  };
+
   return (
     <div className="glass flex flex-col rounded-3xl p-4 transition-transform hover:-translate-y-1">
       {product.imageUrl ? (
@@ -33,6 +53,14 @@ function ProductCard({ product }) {
           {product.ingredients.join(", ")}
         </p>
       )}
+
+      <button
+        onClick={pedir}
+        disabled={status === "sending" || status === "sent"}
+        className="btn-primary mt-4 w-full disabled:opacity-60"
+      >
+        {labels[status]}
+      </button>
     </div>
   );
 }
