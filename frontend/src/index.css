@@ -1,17 +1,89 @@
+@import url("https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;700&family=Archivo+Black&family=Roboto+Mono&display=swap");
 @import "tailwindcss";
 
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+/* ===== Sistema de design - Estacao Cafe (hibrido dark + creme claro) ===== */
+@theme {
+  /* tema escuro (hero + vitrine) */
+  --color-mocha: #1e1813; /* fundo escuro principal */
+  --color-mocha-soft: #2a211c; /* superficies escuras */
+  --color-coffee: #4a3528; /* marrom medio */
+  --color-cream: #ede3d4; /* texto claro */
+  --color-cream-dim: #a89a86; /* texto secundario */
+  --color-honey: #d9a441; /* destaque ambar/mel */
+  --color-dark: #14100c; /* navbar / footer */
+
+  /* tema claro (secoes de conteudo) */
+  --color-paper: #f3ede4; /* fundo creme claro */
+  --color-espresso: #2a2e22; /* texto escuro sobre claro */
+  --color-terracota: #9c5b2e; /* botao no tema claro */
+
+  --font-display: "Archivo Black", system-ui, sans-serif; /* titulos gigantes */
+  --font-heading: "Archivo", system-ui, sans-serif;
+  --font-body: "Archivo", system-ui, sans-serif;
+  --font-mono: "Roboto Mono", ui-monospace, monospace;
 }
 
 body {
-  font-family: system-ui, 'Segoe UI', Roboto, sans-serif;
+  font-family: var(--font-body);
+  background-color: var(--color-mocha);
+  color: var(--color-cream);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 #root {
   min-height: 100svh;
+}
+
+/* ===== Componentes reutilizaveis ===== */
+@layer components {
+  /* Liquid glass sobre fundo escuro - bem transparente, so um leve fosco */
+  .glass {
+    background: rgba(237, 227, 212, 0.04);
+    backdrop-filter: blur(8px) saturate(120%);
+    -webkit-backdrop-filter: blur(8px) saturate(120%);
+    border: 1px solid rgba(237, 227, 212, 0.1);
+  }
+
+  /* Liquid glass branco - barras translucidas sobre fotos (tema claro) */
+  .glass-light {
+    background: rgba(255, 255, 255, 0.14);
+    backdrop-filter: blur(6px) saturate(120%);
+    -webkit-backdrop-filter: blur(6px) saturate(120%);
+    border: 1px solid rgba(255, 255, 255, 0.28);
+  }
+
+  .btn-primary {
+    display: inline-block;
+    background-color: var(--color-honey);
+    color: var(--color-mocha);
+    padding: 0.75rem 1.75rem;
+    font-family: var(--font-body);
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    border: none;
+    border-radius: 9999px;
+    cursor: pointer;
+    transition: filter 0.2s ease, transform 0.2s ease;
+  }
+
+  .btn-coffee {
+    display: inline-block;
+    background-color: var(--color-terracota);
+    color: #fff;
+    padding: 0.85rem 2rem;
+    font-family: var(--font-body);
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    border: none;
+    border-radius: 0.75rem;
+    cursor: pointer;
+    transition: filter 0.2s ease, transform 0.2s ease;
+  }
+
+  .btn-primary:hover,
+  .btn-coffee:hover {
+    filter: brightness(1.08);
+    transform: translateY(-1px);
+  }
 }

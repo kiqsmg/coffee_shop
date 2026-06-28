@@ -1,49 +1,107 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
-import { FaUser, FaSearch, FaShoppingBag } from "react-icons/fa";
+import { Link, useNavigate } from "react-router-dom";
+import { FaUser, FaBars, FaTimes } from "react-icons/fa";
+import { useAuth } from "../context/AuthContext";
+
+const links = [
+  { href: "/menu", label: "MENU", route: true },
+  { href: "#sobre", label: "SOBRE", route: false },
+  { href: "#endereco", label: "CONTATO", route: false },
+];
 
 function Navbar() {
-  const [cartCount, setCartCount] = useState(0);
+  const [open, setOpen] = useState(false);
+  const { user, logout } = useAuth();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    logout();
+    setOpen(false);
+    navigate("/");
+  };
+
+  const renderLink = (l, onClick) =>
+    l.route ? (
+      <Link
+        key={l.href}
+        to={l.href}
+        onClick={onClick}
+        className="font-body text-sm tracking-wide text-cream/80 transition-colors hover:text-honey"
+      >
+        {l.label}
+      </Link>
+    ) : (
+      <a
+        key={l.href}
+        href={l.href}
+        onClick={onClick}
+        className="font-body text-sm tracking-wide text-cream/80 transition-colors hover:text-honey"
+      >
+        {l.label}
+      </a>
+    );
 
   return (
-    <header className="navbar bg-dark text-white py-4 px-6 flex items-center justify-between">
-      {/* Logo */}
-      <div className="logo">
-        <h1 className="font-heading text-xl lg:text-2xl font-bold tracking-wider">
-          ESTAÇÃO CAFÉ
-        </h1>
-      </div>
-
-      {/* Links centralizados */}
-      <nav className="nav-links flex-1 flex justify-center space-x-12 font-body">
-        <Link to="/menu" className="hover:text-gray-300 transition-colors">
-          MENU
-        </Link>
-        <Link to="/sobre" className="hover:text-gray-300 transition-colors">
-          SOBRE NÓS
-        </Link>
-      </nav>
-
-      {/* Ícones */}
-      <div className="nav-icons flex items-center space-x-4">
-        <button className="hover:text-gray-300 transition-colors">
-          <FaSearch />
-        </button>
-        <Link to="/login" className="hover:text-gray-300 transition-colors">
-          <FaUser />
-        </Link>
+    <header className="sticky top-0 z-50 bg-dark/90 backdrop-blur-md">
+      <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
         <Link
-          to="/sacola"
-          className="hover:text-gray-300 transition-colors relative"
+          to="/"
+          className="font-heading text-lg font-bold tracking-wider text-cream"
         >
-          <FaShoppingBag />
-          {cartCount > 0 && (
-            <span className="absolute -top-2 -right-2 bg-white text-black text-xs rounded-full w-5 h-5 flex items-center justify-center font-mono">
-              {cartCount}
-            </span>
-          )}
+          ☕ ESTAÇÃO CAFÉ
         </Link>
+
+        <nav className="hidden items-center gap-10 md:flex">
+          {links.map((l) => renderLink(l))}
+          {user?.role === "admin" &&
+            renderLink({ href: "/admin", label: "PAINEL", route: true })}
+        </nav>
+
+        <div className="flex items-center gap-4">
+          {user ? (
+            <>
+              <Link
+                to="/profile"
+                className="hidden font-body text-sm text-cream/80 transition-colors hover:text-honey sm:inline"
+              >
+                Olá, {user.name?.split(" ")[0] || "conta"}
+              </Link>
+              <button
+                onClick={handleLogout}
+                className="rounded-full border border-cream/20 px-4 py-1.5 font-body text-sm text-cream/80 transition-colors hover:border-honey hover:text-honey"
+              >
+                Sair
+              </button>
+            </>
+          ) : (
+            <Link
+              to="/login"
+              className="text-cream/80 transition-colors hover:text-honey"
+              aria-label="Entrar"
+            >
+              <FaUser />
+            </Link>
+          )}
+          <button
+            className="text-cream/80 transition-colors hover:text-honey md:hidden"
+            onClick={() => setOpen(!open)}
+            aria-label="Abrir menu"
+          >
+            {open ? <FaTimes /> : <FaBars />}
+          </button>
+        </div>
       </div>
+
+      {/* Menu mobile */}
+      {open && (
+        <nav className="flex flex-col gap-4 border-t border-cream/10 px-6 py-4 md:hidden">
+          {links.map((l) => renderLink(l, () => setOpen(false)))}
+          {user?.role === "admin" &&
+            renderLink({ href: "/admin", label: "PAINEL", route: true }, () =>
+              setOpen(false)
+            )}
+        </nav>
+      )}
     </header>
   );
 }
