@@ -60,9 +60,12 @@ function Navbar() {
         <div className="flex items-center gap-4">
           {user ? (
             <>
-              <span className="hidden font-body text-sm text-cream/80 sm:inline">
+              <Link
+                to="/profile"
+                className="hidden font-body text-sm text-cream/80 transition-colors hover:text-honey sm:inline"
+              >
                 Olá, {user.name?.split(" ")[0] || "conta"}
-              </span>
+              </Link>
               <button
                 onClick={handleLogout}
                 className="rounded-full border border-cream/20 px-4 py-1.5 font-body text-sm text-cream/80 transition-colors hover:border-honey hover:text-honey"
