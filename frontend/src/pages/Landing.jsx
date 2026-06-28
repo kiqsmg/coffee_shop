@@ -1,6 +1,9 @@
 import React from "react";
+import { Link } from "react-router-dom";
+import { FaLock } from "react-icons/fa";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
+import { useAuth } from "../context/AuthContext";
 
 // Vitrine estatica da landing (teaser; o menu real vem da API no bloco 3)
 const destaques = [
@@ -13,6 +16,8 @@ const destaques = [
 ];
 
 function Landing() {
+  const { user } = useAuth();
+
   return (
     <div className="overflow-x-hidden bg-mocha text-cream">
       <Navbar />
@@ -71,24 +76,59 @@ function Landing() {
           <h2 className="mb-12 text-center font-display text-3xl text-cream sm:text-5xl">
             Nosso Menu
           </h2>
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {destaques.map((item) => (
-              <div
-                key={item.nome}
-                className="glass flex flex-col items-center rounded-3xl p-4 text-center transition-transform hover:-translate-y-1"
-              >
-                <img
-                  src={`/img/${item.img}`}
-                  alt={item.nome}
-                  className="mb-4 h-44 w-full rounded-2xl object-cover"
-                />
-                <h3 className="font-heading text-xl font-bold text-cream">
-                  {item.nome}
-                </h3>
-                <p className="mt-1 font-mono text-honey">{item.preco}</p>
+
+          <div className="relative">
+            {/* cards (borrados e bloqueados quando deslogado) */}
+            <div
+              className={`grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 ${
+                user ? "" : "pointer-events-none select-none blur-[6px]"
+              }`}
+              aria-hidden={!user}
+            >
+              {destaques.map((item) => (
+                <div
+                  key={item.nome}
+                  className="glass flex flex-col items-center rounded-3xl p-4 text-center transition-transform hover:-translate-y-1"
+                >
+                  <img
+                    src={`/img/${item.img}`}
+                    alt={item.nome}
+                    className="mb-4 h-44 w-full rounded-2xl object-cover"
+                  />
+                  <h3 className="font-heading text-xl font-bold text-cream">
+                    {item.nome}
+                  </h3>
+                  <p className="mt-1 font-mono text-honey">{item.preco}</p>
+                </div>
+              ))}
+            </div>
+
+            {/* overlay de login (so quando deslogado) */}
+            {!user && (
+              <div className="absolute inset-0 flex items-center justify-center px-4">
+                <div className="glass max-w-md rounded-3xl px-8 py-10 text-center">
+                  <FaLock className="mx-auto mb-4 text-2xl text-honey" />
+                  <p className="font-display text-2xl text-cream">
+                    Faça login para acessar nosso menu
+                  </p>
+                  <p className="mt-2 font-body text-cream/70">
+                    Entre na sua conta para ver o cardápio completo.
+                  </p>
+                  <Link to="/login" className="btn-primary mt-6">
+                    Fazer login
+                  </Link>
+                </div>
               </div>
-            ))}
+            )}
           </div>
+
+          {user && (
+            <div className="mt-10 text-center">
+              <Link to="/menu" className="btn-primary">
+                Ver menu completo →
+              </Link>
+            </div>
+          )}
         </div>
       </section>
 
