@@ -5,8 +5,8 @@ import { useAuth } from "../context/AuthContext";
 
 const links = [
   { href: "/menu", label: "MENU", route: true },
-  { href: "#sobre", label: "SOBRE", route: false },
-  { href: "#endereco", label: "CONTATO", route: false },
+  { href: "/#sobre", label: "SOBRE", route: false },
+  { href: "/#endereco", label: "CONTATO", route: false },
 ];
 
 function Navbar() {
