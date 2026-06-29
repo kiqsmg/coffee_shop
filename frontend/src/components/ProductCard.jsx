@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import { useState } from "react";
+import { Link } from "react-router-dom";
 import api from "../services/api";
 
 // Formata o preco para o padrao brasileiro (R$ 12,00)
@@ -28,21 +29,25 @@ function ProductCard({ product, alreadyRequested = false }) {
 
   return (
     <div className="glass flex flex-col rounded-3xl p-4 transition-transform hover:-translate-y-1">
-      {product.imageUrl ? (
-        <img
-          src={product.imageUrl}
-          alt={product.name}
-          className="mb-4 h-44 w-full rounded-2xl object-cover"
-        />
-      ) : (
-        <div className="mb-4 flex h-44 w-full items-center justify-center rounded-2xl bg-mocha-soft text-4xl">
-          ☕
-        </div>
-      )}
+      <Link to={`/menu/${product._id}`}>
+        {product.imageUrl ? (
+          <img
+            src={product.imageUrl}
+            alt={product.name}
+            className="mb-4 h-44 w-full rounded-2xl object-cover"
+          />
+        ) : (
+          <div className="mb-4 flex h-44 w-full items-center justify-center rounded-2xl bg-mocha-soft text-4xl">
+            ☕
+          </div>
+        )}
+      </Link>
 
       <div className="flex items-start justify-between gap-2">
         <h3 className="font-heading text-xl font-bold text-cream">
-          {product.name}
+          <Link to={`/menu/${product._id}`} className="hover:text-honey">
+            {product.name}
+          </Link>
         </h3>
         <span className="whitespace-nowrap font-mono text-honey">
           {formatPrice(product.price)}
