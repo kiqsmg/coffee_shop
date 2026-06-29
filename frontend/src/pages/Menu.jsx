@@ -5,13 +5,18 @@ import api from "../services/api";
 
 function Menu() {
   const [products, setProducts] = useState([]);
+  const [pendingIds, setPendingIds] = useState(new Set());
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
   useEffect(() => {
-    api
-      .get("/products")
-      .then((res) => setProducts(res.data))
+    // Produtos + chamados pendentes do proprio cliente, em paralelo.
+    // Os pendentes mantem o botao "Atendente a caminho" mesmo apos navegar.
+    Promise.all([api.get("/products"), api.get("/requests/mine")])
+      .then(([prods, mine]) => {
+        setProducts(prods.data);
+        setPendingIds(new Set(mine.data.map((r) => r.product)));
+      })
       .catch(() => setError("Não foi possível carregar o menu."))
       .finally(() => setLoading(false));
   }, []);
@@ -38,7 +43,11 @@ function Menu() {
 
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {products.map((p) => (
-            <ProductCard key={p._id} product={p} />
+            <ProductCard
+              key={p._id}
+              product={p}
+              alreadyRequested={pendingIds.has(p._id)}
+            />
           ))}
         </div>
       </main>
