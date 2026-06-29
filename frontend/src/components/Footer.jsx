@@ -20,18 +20,6 @@ export default function Footer() {
             </p>
           </div>
 
-          {/* Links */}
-          <div>
-            <nav className="space-y-3">
-              <Link
-                to="/contato"
-                className="block font-body hover:text-gray-300 transition-colors"
-              >
-                Contato
-              </Link>
-            </nav>
-          </div>
-
           {/* Newsletter */}
           <div>
             <h4 className="font-heading text-lg font-bold mb-4 tracking-wider">
