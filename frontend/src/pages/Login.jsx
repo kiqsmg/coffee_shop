@@ -2,12 +2,14 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import api from "../services/api";
 import { useAuth } from "../context/AuthContext";
+import { FaEye, FaEyeSlash } from "react-icons/fa"; // ícones
 
 function Login() {
   const [isLogin, setIsLogin] = useState(true);
   const [form, setForm] = useState({ name: "", email: "", password: "" });
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false); // controla visibilidade
   const { login } = useAuth();
   const navigate = useNavigate();
 
@@ -27,7 +29,7 @@ function Login() {
         ? { email: form.email, password: form.password }
         : { name: form.name, email: form.email, password: form.password };
       const { data } = await api.post(url, payload);
-      const { token, ...user } = data; // separa token dos dados do usuario
+      const { token, ...user } = data;
       login(user, token);
       navigate("/menu");
     } catch (err) {
@@ -94,15 +96,24 @@ function Login() {
             required
             className={inputClass}
           />
-          <input
-            name="password"
-            value={form.password}
-            onChange={onChange}
-            type="password"
-            placeholder="Senha"
-            required
-            className={inputClass}
-          />
+          <div className="relative">
+            <input
+              name="password"
+              value={form.password}
+              onChange={onChange}
+              type={showPassword ? "text" : "password"}
+              placeholder="Senha"
+              required
+              className={`${inputClass} pr-10`}
+            />
+            <button
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-cream/60 hover:text-honey"
+            >
+              {showPassword ? <FaEyeSlash /> : <FaEye />}
+            </button>
+          </div>
 
           {error && <p className="font-body text-sm text-red-400">{error}</p>}
 
