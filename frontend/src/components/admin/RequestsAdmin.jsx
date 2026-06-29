@@ -1,6 +1,14 @@
 import React, { useCallback, useEffect, useState } from "react";
 import api from "../../services/api";
 
+// "espera ha X" a partir do createdAt do chamado
+const waitLabel = (createdAt) => {
+  const mins = Math.floor((Date.now() - new Date(createdAt)) / 60000);
+  if (mins < 1) return "agora mesmo";
+  if (mins < 60) return `há ${mins} min`;
+  return `há ${Math.floor(mins / 60)} h`;
+};
+
 function RequestsAdmin() {
   const [requests, setRequests] = useState([]);
   const [error, setError] = useState("");
@@ -49,6 +57,9 @@ function RequestsAdmin() {
               <span className="font-body">
                 <strong>{r.userName}</strong> está pedindo{" "}
                 <strong className="text-honey">{r.productName}</strong>
+                <span className="ml-2 text-sm text-cream/40">
+                  espera {waitLabel(r.createdAt)}
+                </span>
               </span>
               <button
                 onClick={() => atender(r._id)}
