@@ -5,8 +5,9 @@ import api from "../services/api";
 const formatPrice = (value) =>
   `R$ ${Number(value).toFixed(2).replace(".", ",")}`;
 
-function ProductCard({ product }) {
-  const [status, setStatus] = useState("idle"); // idle | sending | sent | error
+function ProductCard({ product, alreadyRequested = false }) {
+  // Se ja existe chamado pendente deste produto, ja nasce "sent" (persiste apos navegar).
+  const [status, setStatus] = useState(alreadyRequested ? "sent" : "idle"); // idle | sending | sent | error
 
   const pedir = async () => {
     setStatus("sending");
