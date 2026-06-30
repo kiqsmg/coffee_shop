@@ -19,6 +19,9 @@ if (missing.length) {
 
 const app = express();
 
+// Trust the first proxy (required on Vercel / any reverse-proxy environment)
+app.set('trust proxy', 1);
+
 app.use(helmet());
 app.use(cors({
   origin: process.env.CLIENT_ORIGIN || 'http://localhost:5173',
